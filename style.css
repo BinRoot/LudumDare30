@@ -1,0 +1,43 @@
+@import url(http://fonts.googleapis.com/css?family=Orbitron);
+
+body {
+    background-color: #000401;
+    margin:50px 0px; padding:0px;
+    text-align:center;
+}
+
+h1 {
+    color: #bdfa8f;
+    font-size: 60px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#controls {
+    margin-top: 40px;
+    color: #bdfa8f;
+    font-size: 20px;
+    font-family: 'Orbitron', sans-serif;
+}
+
+#game {
+    width:800px;
+    margin:0px auto;
+    padding:1px;
+    border:1px dashed #333;
+    background-color:#000;
+}
+
+a:link {
+    color: #4d3a3f;
+}
+
+a:hover {
+    color: #bdfa8f;
+}
+
+#footer {
+    margin-top: 40px;
+    color: #4d3a3f;
+    font-size: 20px;
+    font-family: 'Orbitron', sans-serif;
+}

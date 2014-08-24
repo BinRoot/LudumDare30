@@ -1,9 +1,15 @@
 
-var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser-example', { preload: preload, create: create, update: update, render: render });
+var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update, render: render });
 
-
+WebFontConfig = {
+    active: function() { game.time.events.add(Phaser.Timer.SECOND * 1, fixText, this); },
+    google: {
+      families: ['Jura', 'Iceland']
+    }
+};
 
 function preload() {
+    game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
     game.load.image('background', 'assets/background.png');
     game.load.spritesheet('me', 'assets/me.png', 32, 48);
     game.load.image('diamond', 'assets/glow.png');
@@ -39,6 +45,13 @@ var coin1;
 var coin2;
 var hyperloop;
 var die;
+var myText;
+var myTextI = 0;
+
+function fixText() {
+    myText.font = 'Iceland';
+    myText.setText('Hermes, do you copy ?');
+}
 
 function create() {
     game.add.tileSprite(0, 0, 1600, 800, 'background');
@@ -94,6 +107,13 @@ function create() {
     shieldEmitter.makeParticles('diamond');
     shieldEmitter.gravity = 0;
 
+    myText = game.add.text(120, game.world.centerY - 100, "");
+    myText.fontSize = 40;
+    myText.fill = '#ffaa3f'
+    myText.stroke = '#99aaad';
+    myText.strokeThickness = 2;
+    myText.setShadow(5, 5, 'rgba(0,0,0,0.5)', 5);
+
     spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
 
@@ -145,9 +165,10 @@ function update () {
     }
 
     if (me.x >= 1550 && payload == 0) {
-	payload = parseInt(Math.random() * 5, 10);
+	payload = parseInt(Math.random() * 5 + 1, 10);
 	coin1.play();
-	console.log(payload);
+	console.log('my text update');
+	my_text_update();
 	if (shieldUsed) {
 	    spaceKey.isDown = false;
 	    shieldUsed = false;
@@ -157,6 +178,7 @@ function update () {
 	score = score+payload;
 	coin2.play();
 	payload = 0;
+	textJustUpdated = false;
 	for (i = 0; i < score; i++) {
 	    spawnEnemy();
 	}
@@ -251,6 +273,36 @@ function particleBurst(x, y, n) {
     emitter.y = y;
     emitter.start(true, 400, null, n);
 }
+
+var textJustUpdated = false;
+function my_text_update() {
+    if (textJustUpdated) return;
+    console.log(myTextI);
+    if (myTextI == 0) {
+	myText.setText("What have you found?");
+    } else if (myTextI == 1) {
+	myText.setText("These minerals are fascinating.");
+    } else if (myTextI == 2) {
+	myText.setText("There's someone else out there?");
+    } else if (myTextI == 3) {
+	myText.setText("Be careful, Hermes. Use your shield.");
+    } else if (myTextI == 5) {
+	myText.setText("This wasn't ours to take.");	
+    } else if (myTextI == 7) {
+	myText.setText("Hermes, I'm afraid.");
+    } else if (myTextI == 9) {
+	myText.setText("Abort mission! I repeat, abort!");
+    } else if (myTextI == 11) {
+	myText.setText("We can't win this war.");
+    } else if (myTextI == 13) {
+	myText.setText("Hermes, WHY!?");
+    }
+    else {
+	myText.setText("");
+    }
+    myTextI++;
+    textJustUpdated = true;
+} 
 
 function render() {
     game.debug.text('Minerals: ' + score, 350, 50);
