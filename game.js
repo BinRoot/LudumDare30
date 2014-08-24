@@ -2,7 +2,7 @@
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'game', { preload: preload, create: create, update: update, render: render });
 
 WebFontConfig = {
-    active: function() { game.time.events.add(Phaser.Timer.SECOND * 1, fixText, this); },
+    active: function() { game.time.events.add(Phaser.Timer.SECOND * 3, fixText, this); },
     google: {
       families: ['Jura', 'Iceland']
     }
